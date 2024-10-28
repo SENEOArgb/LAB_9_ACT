@@ -42,4 +42,4 @@ jobs:
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
       - name: Run tests
-        run: dotnet test UnitTest_L10/UnitTest_L10.Tests.csproj
+        run: dotnet test UnitTest_L10/UnitTest_L10.csproj
