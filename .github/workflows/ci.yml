@@ -44,7 +44,6 @@ jobs:
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Release
     
   testing-configurations:
-    needs: [build-debug, build-release]
     runs-on: ubuntu-latest
     strategy:
         matrix:
