@@ -36,7 +36,10 @@ jobs:
           dotnet-version: '7.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          dotnet restore TestDrivers9/TestDrivers9.csproj
+          dotnet restore UnitTest_L10/UnitTest_L10.csproj
+          dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
       - name: Run tests
         run: dotnet test UnitTest_L10/UnitTest_L10.Tests.csproj
