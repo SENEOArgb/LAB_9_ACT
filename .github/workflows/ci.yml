@@ -1,0 +1,26 @@
+name: Sequent Workflow
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                dotnet-version: '7.0.x'
+            - name: Restore dependencies
+              run: dotnet restore
+            - name: Build project
+              run: dotnet build D:/LABA_9_ISRPO/LAB_9_ACT/TestDrivers9/TestDrivers9.csproj
+    test:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: Run tests
+              uses: dotnet test D:/LABA_9_ISRPO/LAB_9_ACT/UnitTest_L10/UnitTest_L10.Tests.csproj
