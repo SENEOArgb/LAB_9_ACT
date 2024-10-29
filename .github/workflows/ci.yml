@@ -1,12 +1,13 @@
 name: Sequent Workflow
 
-<<<<<<< HEAD
-on: 
+on:
   pull_request:
     branches:
       - main
       - artifacts
       - artifacts_2
+      - artifacts_3
+      
 jobs:
   build-debug:
     runs-on: ubuntu-latest
@@ -117,4 +118,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.configuration }}-build-artifacts
-          path: TestDrivers9/bin/${{ matrix-configuration }}
+          path: TestDrivers9/bin/${{ matrix.configuration }}
