@@ -1,37 +1,12 @@
 name: Sequent Workflow
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-      - artifacts
-      - artifacts_2
-      - artifacts_3
-      - artifacts_4
-      - artifacts_5
-      - artifacts_7
+
 jobs:
-  build-debug:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '7.0.x'
-
-      - name: Restore dependencies
-        run: | 
-          dotnet restore TestDrivers9/TestDrivers9.csproj
-          dotnet restore UnitTest_L10/UnitTest_L10.csproj
-          dotnet restore ClassMassiv8/ClassMassiv8.csproj
-
-      - name: Build project
-        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Debug
-
-  build-release:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -51,11 +26,9 @@ jobs:
       - name: Build project
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Release
     
-  testing-configurations:
+  testing-configuration:
+    needs: build
     runs-on: ubuntu-latest
-    strategy:
-        matrix:
-            configuration: [Debug, Release]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -64,6 +37,9 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
             dotnet-version: '7.0.x'
+      
+      - name: Setup coverlet
+        run: dotnet tool install --global coverlet.console
 
       - name: Restore dependencies
         run: |
@@ -71,45 +47,12 @@ jobs:
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
-      - name: Build projects
-        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration ${{ matrix.configuration }}
+      - name: Run tests with coverage and generate report
+        run: coverlet UnitTest_L10/bin/Release/net7.0/UnitTest_L10.dll --format cobertura --output coverage.xml
 
-      - name: Run tests
-        run: dotnet test UnitTest_L10/UnitTest_L10.csproj --configuration ${{matrix.configuration }}
-
-  analyze:
-    needs: testing-configurations
+  artifacts-save-documents:
+    needs: testing-configuration
     runs-on: ubuntu-latest
-    strategy:
-        matrix:
-            configuration: [Debug, Release]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-            dotnet-version: '7.0.x'
-        
-      - name: Restore dependencies
-        run: |
-          dotnet restore TestDrivers9/TestDrivers9.csproj
-          dotnet restore UnitTest_L10/UnitTest_L10.csproj
-          dotnet restore ClassMassiv8/ClassMassiv8.csproj
-        
-      - name: Build projects
-        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration ${{ matrix.configuration }}
-        
-      - name: Run code analysis
-        run: dotnet tool install -g dotnet-format && dotnet format TestDrivers9/TestDrivers9.csproj
-
-  artifacts-save:
-    needs: [build-debug, build-release]
-    runs-on: ubuntu-latest
-    strategy:
-        matrix:
-            configuration: [Debug, Release]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -124,12 +67,9 @@ jobs:
           dotnet restore TestDrivers9/TestDrivers9.csproj
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
-
-      - name: Build projects
-        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration ${{ matrix.configuration }}
 
       - name: Publish artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.configuration }}-build-artifacts
-          path: TestDrivers9/bin/${{ matrix.configuration }}/net7.0
+          name: release-build-artifacts
+          path: coverage.xml
