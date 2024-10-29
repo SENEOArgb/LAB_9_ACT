@@ -6,6 +6,7 @@ on:
       - artifacts_2
       - main
       - artifacts
+      - artifacts_3
 
 jobs:
   build-debug:
@@ -117,4 +118,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.configuration }}-build-artifacts
-          path: TestDrivers9/bin/${{ matrix-configuration }}
+          path: TestDrivers9/bin/${{ matrix.configuration }}
