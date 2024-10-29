@@ -9,6 +9,7 @@ on:
       - artifacts_3
       - artifacts_4
       - artifacts_5
+      - artifacts_6
 
 jobs:
   build-debug:
