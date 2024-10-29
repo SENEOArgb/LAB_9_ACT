@@ -3,10 +3,11 @@ name: Sequent Workflow
 on:
   pull_request:
     branches:
-      - artifacts_2
       - main
       - artifacts
+      - artifacts_2
       - artifacts_3
+      - artifacts_4
 
 jobs:
   build-debug:
@@ -118,4 +119,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.configuration }}-build-artifacts
-          path: TestDrivers9/bin/${{ matrix.configuration }}
+          path: TestDrivers9/bin/${{ matrix.configuration }}/net7.0
