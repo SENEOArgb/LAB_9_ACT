@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - artifacts_2
+      - main
+      - artifacts
 
 jobs:
   build-debug:
