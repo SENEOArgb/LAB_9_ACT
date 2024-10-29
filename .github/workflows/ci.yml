@@ -1,11 +1,12 @@
 name: Sequent Workflow
 
+<<<<<<< HEAD
 on: 
   pull_request:
     branches:
       - main
       - artifacts
-
+      - artifacts_2
 jobs:
   build-debug:
     runs-on: ubuntu-latest
