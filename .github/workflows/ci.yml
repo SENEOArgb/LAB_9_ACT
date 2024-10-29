@@ -9,6 +9,7 @@ on:
       - artifacts_3
       - artifacts_4
       - artifacts_5
+      - artifacts_6
 
 jobs:
   build-debug:
@@ -66,7 +67,7 @@ jobs:
             dotnet-version: '7.0.x'
         
       - name: Run tests
-        run: dotnet test UnitTest_L10/UnitTest_L10.csproj --configuration ${{matrix.configuration }}
+        run: dotnet test UnitTest_L10/UnitTest1.cs --configuration ${{matrix.configuration }}
 
   analyze:
     needs: testing-configurations
@@ -115,7 +116,7 @@ jobs:
           dotnet restore TestDrivers9/TestDrivers9.csproj
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
-          
+
       - name: Build projects
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration ${{ matrix.configuration }}
 
