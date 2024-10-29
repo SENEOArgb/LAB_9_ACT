@@ -8,6 +8,7 @@ on:
       - artifacts_2
       - artifacts_3
       - artifacts_4
+      - artifacts_5
 
 jobs:
   build-debug:
@@ -62,7 +63,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-            dotnet version: '7.0.x'
+            dotnet-version: '7.0.x'
         
       - name: Run tests
         run: dotnet test UnitTest_L10/UnitTest_L10.csproj --configuration ${{matrix.configuration }}
@@ -80,7 +81,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-            dotnet version: '7.0.x'
+            dotnet-version: '7.0.x'
         
       - name: Restore dependencies
         run: |
@@ -107,14 +108,17 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-            dotnet version: '7.0.x'
+            dotnet-version: '7.0.x'
         
       - name: Restore dependencies
         run: |
           dotnet restore TestDrivers9/TestDrivers9.csproj
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
-      
+          
+      - name: Build projects
+        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration ${{ matrix.configuration }}
+
       - name: Publish artifacts
         uses: actions/upload-artifact@v4
         with:
