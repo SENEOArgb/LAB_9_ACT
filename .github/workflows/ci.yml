@@ -26,8 +26,14 @@ jobs:
       - name: Build project
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Release
 
-      - name: Publish test project
+      - name: Publish project
         run: dotnet publish TestDrivers9/TestDrivers9.csproj --configuration Release --output ./bin/Release/net7.0
+
+      - name: Build test project
+        run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
+
+      - name: Publish test project
+        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj --configuration Release --output ./bin/Release/net7.0
 
   testing-configuration:
     needs: build
