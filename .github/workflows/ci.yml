@@ -30,7 +30,7 @@ jobs:
         run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
 
       - name: Publish test project
-        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj -c Release -r win-x64 --output ./publish/win-x64
+        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj -c Release -r win-x64 --output UnitTest_L10/bin/Release/net7.0/win-x64
 
   testing-configuration:
     needs: build
@@ -54,9 +54,7 @@ jobs:
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
       - name: Run tests with coverage and generate report
-        run: coverlet UnitTest_L10/bin/Release/net7.0/publish/win-x64/UnitTest_L10.dll --target "dotnet" --targetargs "test UnitTest_L10/UnitTest_L10.csproj --no-build --configuration Release" --format cobertura --output coverage.xml
-        env:
-          PATH: ./home/runner/.dotnet/tools
+        run: coverlet UnitTest_L10/bin/Release/net7.0/win-x64/UnitTest_L10.dll --target "dotnet" --targetargs "test UnitTest_L10/UnitTest_L10.csproj --no-build --configuration Release" --format cobertura --output coverage.xml
 
   artifacts-save-documents:
     needs: testing-configuration
@@ -77,7 +75,7 @@ jobs:
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
       - name: Publish artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: release-build-artifacts
           path: coverage.xml
