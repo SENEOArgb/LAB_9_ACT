@@ -62,24 +62,6 @@ jobs:
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
-      - name: Verify output directory
-        run: |
-          if [ -d "UnitTest_L10/bin/Release/net7.0/" ]; then
-            echo "Test output directory exists"
-          else
-            echo "Test output directory does not exist"
-            exit 1
-          fi
-
-      - name: Verify test DLL exists
-        run: |
-          if [ -f "UnitTest_L10/bin/Release/net7.0/UnitTest_L10.dll" ]; then
-            echo "Test DLL exists"
-          else
-            echo "Test DLL does not exist"
-            exit 1
-          fi
-
       - name: Build project
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Debug
 
