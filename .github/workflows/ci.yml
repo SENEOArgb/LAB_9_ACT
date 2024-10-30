@@ -61,14 +61,6 @@ jobs:
           dotnet restore TestDrivers9/TestDrivers9.csproj
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
-
-      - name: Verify output directory
-        run: |
-          ls -l ./bin/Release/net7.0/
-
-      - name: Verify test DLL exists
-        run: |
-          ls ./bin/Release/net7.0/
         
       - name: Run tests with coverage and generate report
         run: coverlet ./bin/Release/net7.0/UnitTest_L10.dll --target "dotnet" --targetargs "test UnitTest_L10/UnitTest_L10.csproj --no-build --configuration Release" --format cobertura --output coverage.xml
