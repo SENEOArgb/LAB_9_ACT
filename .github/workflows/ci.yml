@@ -80,6 +80,24 @@ jobs:
             exit 1
           fi
 
+      - name: Build project
+        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Debug
+
+      - name: Build project
+        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Release
+
+      - name: Publish project
+        run: dotnet publish TestDrivers9/TestDrivers9.csproj --configuration Release --output TestDrivers9/bin/Release/net7.0
+
+      - name: Build test project
+        run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Debug
+
+      - name: Build test project
+        run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
+
+      - name: Publish test project
+        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj --configuration Release --output UnitTest_L10/bin/Release/net7.0
+
       - name: Run tests with coverage and generate report
         run: coverlet UnitTest_L10/bin/Release/net7.0/UnitTest_L10.dll --target "dotnet" --targetargs "test UnitTest_L10/UnitTest_L10.csproj --no-build --configuration Release" --format cobertura --output coverage.xml
 
