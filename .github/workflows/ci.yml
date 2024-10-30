@@ -29,6 +29,9 @@ jobs:
       - name: Build test project
         run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
 
+      - name: Publish test project
+        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj --configuration Release --output ./publish
+
   testing-configuration:
     needs: build
     runs-on: ubuntu-latest
@@ -51,7 +54,7 @@ jobs:
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
 
       - name: Run tests with coverage and generate report
-        run: coverlet UnitTest_L10/bin/Release/net7.0/UnitTest_L10.dll --target "dotnet" --targetargs "test UnitTest_L10/UnitTest_L10.csproj --no-build --configuration Release" --format cobertura --output coverage.xml
+        run: coverlet UnitTest_L10/bin/Release/net7.0/publish/UnitTest_L10.dll --target "dotnet" --targetargs "test UnitTest_L10/UnitTest_L10.csproj --no-build --configuration Release" --format cobertura --output coverage.xml
         env:
           PATH: $PATH:/home/runner/.dotnet/tools
 
