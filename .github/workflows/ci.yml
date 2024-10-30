@@ -22,12 +22,18 @@ jobs:
           dotnet restore TestDrivers9/TestDrivers9.csproj
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
-        
+
+      - name: Build project
+        run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Debug
+
       - name: Build project
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Release
 
       - name: Publish project
         run: dotnet publish TestDrivers9/TestDrivers9.csproj --configuration Release --output ./bin/Release/net7.0
+
+      - name: Build test project
+        run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Debug
 
       - name: Build test project
         run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
@@ -55,6 +61,10 @@ jobs:
           dotnet restore TestDrivers9/TestDrivers9.csproj
           dotnet restore UnitTest_L10/UnitTest_L10.csproj
           dotnet restore ClassMassiv8/ClassMassiv8.csproj
+
+      - name: Verify output directory
+        run: |
+          ls -l ./bin/Release/net7.0/
 
       - name: Verify test DLL exists
         run: |
