@@ -25,7 +25,10 @@ jobs:
         
       - name: Build project
         run: dotnet build TestDrivers9/TestDrivers9.csproj --configuration Release
-    
+
+      - name: Build test project
+        run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
+
   testing-configuration:
     needs: build
     runs-on: ubuntu-latest
