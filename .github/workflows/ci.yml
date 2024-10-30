@@ -30,7 +30,7 @@ jobs:
         run: dotnet build UnitTest_L10/UnitTest_L10.csproj --configuration Release
 
       - name: Publish test project
-        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj --configuration Release --output UnitTest_L10/bin/Release/net7.0/publish
+        run: dotnet publish UnitTest_L10/UnitTest_L10.csproj -c Release -r win-x64 --output ./publish/win-x64
 
   testing-configuration:
     needs: build
